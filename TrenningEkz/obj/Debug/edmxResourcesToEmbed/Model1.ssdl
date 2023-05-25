@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище EkzamenDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="OrderProd">
+    <Key>
+      <PropertyRef Name="ID_Prod_Order" />
+    </Key>
+    <Property Name="ID_Prod_Order" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ID_Prod" Type="int" />
+    <Property Name="ID_User" Type="int" />
+    <Property Name="ID_PickPoint" Type="int" />
+  </EntityType>
+  <EntityType Name="PIckPoint">
+    <Key>
+      <PropertyRef Name="ID_PickPoint" />
+    </Key>
+    <Property Name="ID_PickPoint" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ID_Prod" />
+    </Key>
+    <Property Name="ID_Prod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Tittle" Type="nvarchar" MaxLength="50" />
+    <Property Name="Cost" Type="int" />
+    <Property Name="Sales" Type="int" />
+    <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Photo" Type="nvarchar(max)" />
+    <Property Name="CostForSales" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID_Role" />
+    </Key>
+    <Property Name="ID_Role" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID_User" />
+    </Key>
+    <Property Name="ID_User" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="ID_Role" Type="int" />
+  </EntityType>
+  <Association Name="FK_OrderProd_PIckPoint">
+    <End Role="PIckPoint" Type="Self.PIckPoint" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrderProd" Type="Self.OrderProd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PIckPoint">
+        <PropertyRef Name="ID_PickPoint" />
+      </Principal>
+      <Dependent Role="OrderProd">
+        <PropertyRef Name="ID_PickPoint" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProd_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrderProd" Type="Self.OrderProd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ID_Prod" />
+      </Principal>
+      <Dependent Role="OrderProd">
+        <PropertyRef Name="ID_Prod" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderProd_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="OrderProd" Type="Self.OrderProd" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="ID_User" />
+      </Principal>
+      <Dependent Role="OrderProd">
+        <PropertyRef Name="ID_User" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ID_Role" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="ID_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище EkzamenDBModelContainer">
+    <EntitySet Name="OrderProd" EntityType="Self.OrderProd" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PIckPoint" EntityType="Self.PIckPoint" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_OrderProd_PIckPoint" Association="Self.FK_OrderProd_PIckPoint">
+      <End Role="PIckPoint" EntitySet="PIckPoint" />
+      <End Role="OrderProd" EntitySet="OrderProd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProd_Product" Association="Self.FK_OrderProd_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="OrderProd" EntitySet="OrderProd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderProd_User" Association="Self.FK_OrderProd_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="OrderProd" EntitySet="OrderProd" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

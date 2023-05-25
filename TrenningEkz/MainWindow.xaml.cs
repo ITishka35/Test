@@ -23,6 +23,8 @@ namespace TrenningEkz
         public MainWindow()
         {
             InitializeComponent();
+            AppFrame.frame = Framik;
+            AppFrame.frame.Navigate(new Auutoriz());
         }
     }
 }
